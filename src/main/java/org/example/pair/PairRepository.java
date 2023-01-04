@@ -13,6 +13,20 @@ public class PairRepository {
     private static final String QUERY_FOR_CHECK = "SELECT * FROM pairs WHERE (user_id = ? and competitor_id = ?) "
             + "OR (user_id = ? and competitor_id = ?)";
 
+    public void savePair(Pair pair) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVE_PAIR)) {
+            statement.setLong(1, pair.getIdOne());
+            statement.setLong(2, pair.getIdTwo());
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
 
     public List<Pair> getPairs() {
         try (Connection connection = DataSource.getConnection();
@@ -48,21 +62,5 @@ public class PairRepository {
         int idOne = res.getInt("user_id");
         int idTwo = res.getInt("competitor_id");
         return new Pair(idOne, idTwo);
-    }
-
-    public void handlePair(Pair pair) {
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVE_PAIR,
-                     Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, pair.getIdOne());
-            statement.setLong(2, pair.getIdTwo());
-
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new RuntimeException();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
     }
 }

@@ -85,6 +85,4 @@ public class UserRepository {
         LocalDateTime date = res.getTimestamp("last_competition").toLocalDateTime();
         return new User(id, name, surname, groupId, isChosen, date);
     }
-
-
 }

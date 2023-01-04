@@ -50,7 +50,7 @@ public class PairGenerator {
                 if (u1.getGroupId() != u2.getGroupId()) {
                     Pair pair = new Pair(u1.getId(), u2.getId());
                     if (!pairRepository.checkPair(pair)) {
-                        pairRepository.handlePair(pair);
+                        pairRepository.savePair(pair);
                     }
                 }
             }
