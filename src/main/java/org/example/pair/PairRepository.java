@@ -15,7 +15,8 @@ public class PairRepository {
 
 
     public List<Pair> getPairs() {
-        try (Connection connection = DataSource.getConnection(); PreparedStatement statement = connection.prepareStatement(QUERY_FOR_PAIRS)) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_PAIRS)) {
 
             ResultSet res = statement.executeQuery();
 
@@ -30,7 +31,8 @@ public class PairRepository {
     }
 
     public boolean checkPair(Pair pair) {
-        try (Connection connection = DataSource.getConnection(); PreparedStatement statement = connection.prepareStatement(QUERY_FOR_CHECK)) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_CHECK)) {
             statement.setLong(1, pair.getIdOne());
             statement.setLong(2, pair.getIdTwo());
             statement.setLong(4, pair.getIdOne());
@@ -49,7 +51,9 @@ public class PairRepository {
     }
 
     public void handlePair(Pair pair) {
-        try (Connection connection = DataSource.getConnection(); PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVE_PAIR, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(QUERY_FOR_SAVE_PAIR,
+                     Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, pair.getIdOne());
             statement.setLong(2, pair.getIdTwo());
 

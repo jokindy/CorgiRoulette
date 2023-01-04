@@ -7,40 +7,26 @@ public class User {
 
     private long id;
     private String name;
+    private String surname;
     private long groupId;
     private boolean isChosen;
     private LocalDateTime lastCompetition;
 
-    public User(long id, String name, long groupId, boolean isChosen, LocalDateTime lastCompetition) {
+    public User(long id, String name, String surname, long groupId, boolean isChosen, LocalDateTime lastCompetition) {
         this.id = id;
         this.name = name;
+        this.name = surname;
         this.groupId = groupId;
         this.isChosen = isChosen;
         this.lastCompetition = lastCompetition;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getId() == user.getId() && getGroupId() == user.getGroupId() && Objects.equals(getName(), user.getName());
+    public String getSurname() {
+        return surname;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getGroupId());
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", groupId=" + groupId +
-                ", isChosen=" + isChosen +
-                ", lastCompetition=" + lastCompetition +
-                '}';
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public long getId() {
@@ -82,5 +68,34 @@ public class User {
 
     public void setLastCompetition(LocalDateTime lastCompetition) {
         this.lastCompetition = lastCompetition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId() && getGroupId() == user.getGroupId() &&
+                isChosen() == user.isChosen() &&
+                Objects.equals(getName(), user.getName()) &&
+                Objects.equals(getSurname(), user.getSurname()) &&
+                Objects.equals(getLastCompetition(), user.getLastCompetition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getSurname(), getGroupId(), isChosen(), getLastCompetition());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", groupId=" + groupId +
+                ", isChosen=" + isChosen +
+                ", lastCompetition=" + lastCompetition +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package org.example.pair;
 
 import org.example.user.User;
 import org.example.user.UserRepository;
+import org.example.user.UserValidator;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,10 +15,12 @@ public class PairGenerator {
 
     private final PairRepository pairRepository;
     private final UserRepository userRepository;
+    private final UserValidator userValidator;
 
     public PairGenerator() {
         this.pairRepository = new PairRepository();
         this.userRepository = new UserRepository();
+        this.userValidator = new UserValidator();
         generatePairs();
     }
 
@@ -27,8 +30,10 @@ public class PairGenerator {
         while (tries.size() != pairs.size()) {
             int anotherTry = RANDOM.nextInt(pairs.size());
             Pair pair = pairs.get(anotherTry);
-            if (userRepository.checkPair(pair)) {
-                userRepository.handlePair(pair);
+            User user1 = userRepository.getUser(pair.getIdOne());
+            User user2 = userRepository.getUser(pair.getIdTwo());
+            if (userValidator.validatePair(user1, user2)) {
+                userRepository.handlePair(pair.getIdOne(), pair.getIdTwo());
                 return pair;
             }
             tries.add(anotherTry);
